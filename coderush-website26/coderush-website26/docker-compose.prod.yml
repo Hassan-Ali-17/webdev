@@ -1,0 +1,28 @@
+version: "3.8"
+services:
+  backend:
+    image: ${DOCKERHUB_USERNAME:-yourdockeruser}/fcc-backend:latest
+    ports:
+      - "5001:5000"
+    volumes:
+      - backend-data:/app/data
+      - ./fleet.json:/app/fleet.json:ro
+    environment:
+      - DATABASE_URL=sqlite:///data/fleet_command.db
+      - FLEET_JSON_PATH=/app/fleet.json
+      - TICK_HZ=${TICK_HZ:-4}
+      - CORS_ORIGINS=${CORS_ORIGINS:-http://localhost:3000}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - AI_PROVIDER=${AI_PROVIDER:-auto}
+      - SOCKETIO_ASYNC_MODE=${SOCKETIO_ASYNC_MODE:-eventlet}
+
+  frontend:
+    image: ${DOCKERHUB_USERNAME:-yourdockeruser}/fcc-frontend:latest
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  backend-data:
