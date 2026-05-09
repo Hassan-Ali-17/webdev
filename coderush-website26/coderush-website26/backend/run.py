@@ -1,12 +1,8 @@
-"""WSGI runner with eventlet + background simulation ticker."""
-
+"""WSGI runner with gevent + background simulation ticker."""
 from __future__ import annotations
-
 import os
-
-import eventlet
-
-eventlet.monkey_patch()
+from gevent import monkey
+monkey.patch_all()
 
 from app import create_app, spawn_simulation_loop  # noqa: E402
 

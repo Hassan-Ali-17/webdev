@@ -42,7 +42,7 @@ def create_app():
 
     socketio_kwargs = dict(
         cors_allowed_origins=cfg_flask.CORS_ORIGINS,
-        async_mode="eventlet",
+        async_mode="gevent",
     )
     if mq.strip():
         socketio_kwargs["message_queue"] = mq
@@ -381,14 +381,14 @@ def create_app():
 
 
 def spawn_simulation_loop(app, sim, _socketio):
-    import eventlet
+    import gevent
 
     hz = max(2.0, float(Config.TICK_HZ))
 
     def loop():
         while True:
-            eventlet.sleep(1.0 / hz)
+            gevent.sleep(1.0 / hz)
             with app.app_context():
                 sim.tick()
 
-    eventlet.spawn(loop)
+    gevent.spawn(loop)
