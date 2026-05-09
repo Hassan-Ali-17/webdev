@@ -2,40 +2,109 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Exo+2:wght@300;400;500;600&display=swap');
+
 :root {
   color-scheme: dark;
 }
 
 body {
-  @apply bg-midnight text-slate-100 antialiased min-h-screen;
+  @apply bg-[#020617] text-slate-100 antialiased min-h-screen;
+  font-family: 'Exo 2', sans-serif;
 }
 
-.glass-panel {
-  border-radius: 0.375rem;
-  border: 1px solid rgba(34, 211, 238, 0.28);
-  background: rgba(11, 18, 36, 0.82);
-  backdrop-filter: blur(22px);
-  box-shadow: 0 0 24px rgba(34, 211, 238, 0.42);
-}
-
+/* ── Map base ────────────────────────────────────────── */
 .leaflet-container {
-  background: #020617 !important;
+  background: #010c1a !important;
+  font-family: 'Share Tech Mono', monospace !important;
 }
 
+/* Hide default leaflet tooltip styling — we use inline styles */
+.leaflet-tooltip {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+.leaflet-tooltip::before {
+  display: none !important;
+}
+
+/* Zoom controls */
+.leaflet-control-zoom {
+  border: 1px solid rgba(0,255,200,0.15) !important;
+  border-radius: 4px !important;
+  overflow: hidden;
+}
+.leaflet-control-zoom a {
+  background: rgba(2,8,20,0.92) !important;
+  color: rgba(0,255,200,0.8) !important;
+  border-bottom: 1px solid rgba(0,255,200,0.1) !important;
+  font-size: 16px !important;
+  transition: background 0.15s ease !important;
+}
+.leaflet-control-zoom a:hover {
+  background: rgba(0,255,200,0.1) !important;
+  color: #fff !important;
+}
+
+/* Draw controls */
+.leaflet-draw-toolbar a {
+  background-color: rgba(2,8,20,0.92) !important;
+  border-color: rgba(0,255,200,0.15) !important;
+}
+.leaflet-draw-toolbar a:hover {
+  background-color: rgba(0,255,200,0.08) !important;
+}
+
+/* Attribution */
+.leaflet-control-attribution {
+  background: rgba(2,8,20,0.75) !important;
+  color: rgba(148,163,184,0.35) !important;
+  font-size: 9px !important;
+  font-family: 'Share Tech Mono', monospace !important;
+}
+.leaflet-control-attribution a {
+  color: rgba(0,255,200,0.35) !important;
+}
+
+/* ── Glass panel ─────────────────────────────────────── */
+.glass-panel {
+  border-radius: 6px;
+  border: 1px solid rgba(0,255,200,0.12);
+  background: rgba(2,8,20,0.88);
+  backdrop-filter: blur(20px);
+}
+
+/* ── Ship marker glow ────────────────────────────────── */
 .ship-marker {
-  filter: drop-shadow(0 0 6px rgba(34, 211, 238, 0.7));
+  filter: drop-shadow(0 0 8px rgba(0,255,200,0.7));
 }
 
+/* ── Scene perspective grid ──────────────────────────── */
 .scene-perspective {
   perspective: 1400px;
   perspective-origin: 50% 32%;
 }
 
+/* ── CRT scanlines overlay ───────────────────────────── */
 .scanlines {
   background: repeating-linear-gradient(
     transparent 0px,
     transparent 2px,
-    rgba(0, 0, 0, 0.42) 2px,
-    rgba(0, 0, 0, 0.42) 3px
+    rgba(0,0,0,0.35) 2px,
+    rgba(0,0,0,0.35) 3px
   );
+}
+
+/* ── Scrollbar ───────────────────────────────────────── */
+::-webkit-scrollbar        { width: 4px; height: 4px; }
+::-webkit-scrollbar-track  { background: transparent; }
+::-webkit-scrollbar-thumb  { background: rgba(0,255,200,0.18); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(0,255,200,0.35); }
+
+/* ── Ship pulse animation (used in SVG markers) ──────── */
+@keyframes ship-pulse {
+  0%, 100% { opacity: 0.8; }
+  50%       { opacity: 0.15; }
 }
